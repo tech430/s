@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee</title>
+</head>
+<body onload="loadXML()">
+    <h1>Employee Details</h1>
+    <p id="list">
+        <table border="1" id="listtab" >
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Branch</th>
+                    <th>Dept</th>
+                    <th>Position</th>
+                    <th>Specialization</th>
+                    <th>Years</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+  
+        <br><br><br>
+        <form>
+            <input type="text" id="id" placeholder="ID">
+            <input type="text" id="name" placeholder="Name" >
+            <input type="text" id="branch" placeholder="Branch">
+            <input type="text" id="dept" placeholder="Dept">
+            <input type="text" id="position" placeholder="Position">
+            <input type="text" id="specs" placeholder="Specs`">
+            <input type="text" id="years" placeholder="Years">
+            <br>
+            <input type="button" value="remove" onclick="removeEmployee()">
+            <input type="button" value="Add"  onclick="addEmployee()">
+            <input type="button" value="update" onclick="updateData()">
+        </form>
+
+    </p>
+
+  
+
+    <script>
+        var xmlDoc;
+        function loadXML() {
+            const xhttp=new XMLHttpRequest();
+            xhttp.open("GET","Q01.xml",true);
+            xhttp.onreadystatechange = function () {
+
+                if(this.readyState==4 && this.status==200){
+                    xmlDoc=this.responseXML;
+                    //updateData(this);
+                    displayEmployees(xmlDoc);
+                }
+            };
+            xhttp.send();
+        }
+
+        function displayEmployees(xml){
+            const table=document.getElementById("listtab").getElementsByTagName("tbody")[0];
+
+            table.innerHTML="";
+
+            const employees=xml.getElementsByTagName("Customer");
+
+            for(let emp of employees){
+                const specs=emp.getAttribute("Specialization");
+                const id=emp.getElementsByTagName("ID")[0].textContent;
+                const name=emp.getElementsByTagName("Name")[0].textContent;
+                const branch=emp.getElementsByTagName("Branch")[0].textContent;
+                const dept=emp.getElementsByTagName("Branch")[0].getAttribute("Department");
+                const position=emp.getElementsByTagName("Position")[0].textContent;
+                const year=emp.getElementsByTagName("Years")[0].textContent;
+                
+                const row=table.insertRow();
+
+                row.innerHTML=
+                `<td> ${id} </td>`+
+                `<td> ${name} </td>`+
+                `<td> ${branch} </td>`+
+                `<td> ${dept} </td>`+
+                `<td> ${specs} </td>`+
+                `<td> ${position} </td>`+
+                `<td> ${year} </td>`;
+
+            }
+        }
+
+
+        function updateData() {
+            const employees = xmlDoc.getElementsByTagName("Customer");
+
+            for (let emp of employees) {
+                const name = emp.getElementsByTagName("Name")[0].textContent;
+                if (name == "Sarah Johnson") {
+                    emp.getElementsByTagName("Position")[0].textContent = "Senior Loan Officer";
+                    emp.getElementsByTagName("Years")[0].textContent = "9";
+                }
+            }
+            displayEmployees(xmlDoc); 
+        }
+
+
+        function addEmployee() {
+            if (!xmlDoc) {
+                alert("XML data is not loaded yet.");
+                return;
+            }
+
+            // Create a new Employee element
+            const newEmployee = xmlDoc.createElement("Customer");
+            newEmployee.setAttribute("Specialization", document.getElementById("specs").value);
+
+            // Create and append child elements
+            const id = xmlDoc.createElement("ID");
+            id.textContent = document.getElementById("id").value;
+            newEmployee.appendChild(id);
+
+            const name = xmlDoc.createElement("Name");
+            name.textContent = document.getElementById("name").value;
+            newEmployee.appendChild(name);
+
+            const branch = xmlDoc.createElement("Branch");
+            branch.textContent = document.getElementById("branch").value;
+            branch.setAttribute("Department", document.getElementById("dept").value);
+            newEmployee.appendChild(branch);
+
+            const position = xmlDoc.createElement("Position");
+            position.textContent = document.getElementById("position").value;
+            newEmployee.appendChild(position);
+
+            const years = xmlDoc.createElement("Years");
+            years.textContent = document.getElementById("years").value;
+            newEmployee.appendChild(years);
+
+            // Append new employee to XML
+            xmlDoc.getElementsByTagName("Bank")[0].appendChild(newEmployee);
+
+            // Dynamically update the table
+            displayEmployees(xmlDoc);
+
+            // Clear input fields after insertion
+            document.getElementById("id").value = "";
+            document.getElementById("name").value = "";
+            document.getElementById("branch").value = "";
+            document.getElementById("dept").value = "";
+            document.getElementById("position").value = "";
+            document.getElementById("specs").value = "";
+            document.getElementById("years").value = "";
+        }
+
+        function removeEmployee() {
+            if (!xmlDoc) {
+                alert("XML data is not loaded yet.");
+                return;
+            }
+
+            const idToRemove = document.getElementById("id").value;
+            const employees = xmlDoc.getElementsByTagName("Customer");
+
+            for (let emp of employees) {
+                const id = emp.getElementsByTagName("ID")[0].textContent;
+
+                if (id === idToRemove) {
+                    emp.parentNode.removeChild(emp);
+                    break;
+                }
+            }
+
+            // Update the table
+            displayEmployees(xmlDoc);
+
+            // Clear input fields
+            document.getElementById("id").value = "";
+        }
+
+
+    </script>
+</body>
+</html>
