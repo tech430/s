@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Employees>
+    <Employee specialization = "BICT" > 
+        <Id>001</Id>
+        <Name>Ajas</Name>
+        <Branch department = "ICT">Kalmunai</Branch>
+        <Position>Teller</Position>
+        <Years>8</Years>
+    </Employee>
+
+    <Employee specialization = "BBST"> 
+        <Id>002</Id>
+        <Name>Sajan</Name>
+        <Branch department = "BST">Sainthamaruthu</Branch>
+        <Position>Loan Officer</Position>
+        <Years>10</Years>
+    </Employee>
+
+    <Employee specialization = "BMIT"> 
+        <Id>003</Id>
+        <Name>Sajeeth</Name>
+        <Branch department = "MIT">Nintaur</Branch>
+        <Position>Risk Anayst</Position>
+        <Years>8</Years>
+    </Employee>
+
+    <Employee specialization = "BART"> 
+        <Id>004</Id>
+        <Name>Sajeen</Name>
+        <Branch department = "ART">Karativu</Branch>
+        <Position>Marketting Officer</Position>
+        <Years>7</Years>
+    </Employee>
+
+    <Employee specialization = "BBBA" > 
+        <Id>005</Id>
+        <Name>Sasna</Name>
+        <Branch department = "BBA">Mavadipalli</Branch>
+        <Position>Financial Adviser</Position>
+        <Years>5</Years>
+    </Employee>
+</Employees>

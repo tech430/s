@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Employees Details</title>
+</head>
+<body onload="loadXML()">
+    <h1>Bank Employee Details</h1>
+    <table border="1" id="employee_table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Branch</th>
+                <th>Department</th>
+                <th>Position</th>
+                <th>Specalization</th>
+                <th>Years</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <br><br>
+
+    <h1><u>Insert Bank Employees Data</u></h1>
+    
+        <label for="">ID: </label>
+        <input type="number" placeholder="Enter the Id" id="id" name="id">
+        <br>
+        <br>
+
+        <label for="">Name: </label>
+        <input type="text" placeholder="Enter the Name" id="name" name="name">
+        <br>
+        <br>
+
+        <label for="">Branch: </label>
+        <input type="text" placeholder="Enter the Baranch" id="bra" name="bra">
+        <br>
+        <br>
+
+        <label for="">Department: </label>
+        <input type="text" placeholder="Enter the Department" id="dep" name="dep">
+        <br>
+        <br>
+
+        <label for="">Position: </label>
+        <input type="text" placeholder="Enter the Position" id="pos" name="pos">
+        <br>
+        <br>
+
+        <label for="">Specalization: </label>
+        <input type="text" placeholder="Enter the Specalization" id="specal" name="specal">
+        <br>
+        <br>
+
+        <label for="">Years: </label>
+        <input type="number" placeholder="Enter the Year" id="year" name="year">
+        <br>
+        <br>
+
+        <button type="button" onclick="addEmployee()">Insert</button>
+        
+   
+</body>
+</html>
+
+<script>
+    function loadXML() {
+        const xhttp = new XMLHttpRequest;
+
+        xhttp.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status == 200){
+
+                xmlDoc = this.responseXML;
+
+                updateData(this);
+                displayData(this.responseXML);
+                addEmployee();
+
+            }
+        };
+
+        xhttp.open("GET", "Ques01_a.xml", true);
+        xhttp.send();
+    }
+
+    function displayData(xml) {
+        const table = document.getElementById("employee_table").getElementsByTagName('tbody')[0];
+        table.innerHTML = "";
+
+        const employees = xml.getElementsByTagName("Employee");//Thgis Employee for XML Document Inside the Root Element Name
+        
+        for(let emp of employees){
+
+            const ID = emp.getElementsByTagName("Id")[0].textContent;
+            const NAME = emp.getElementsByTagName("Name")[0].textContent;
+            const BRANCH = emp.getElementsByTagName("Branch")[0].textContent;
+            const DEPT = emp.getElementsByTagName("Branch")[0].getAttribute("department");
+            const POSITION = emp.getElementsByTagName("Position")[0].textContent;
+            const SPECIALIZATION = emp.getAttribute("specialization");
+            const YEAR = emp.getElementsByTagName("Years")[0].textContent;
+
+            const row = table.insertRow();
+
+           row.innerHTML = `<td>${ID}</td>
+                 <td>${NAME}</td>
+                 <td>${BRANCH}</td>
+                 <td>${DEPT}</td>
+                 <td>${POSITION}</td>
+                 <td>${SPECIALIZATION}</td>
+                 <td>${YEAR}</td>`;     
+                
+       }                
+    }
+
+    //Update
+    function updateData(xml) {
+        const employees = xml.responseXML.getElementsByTagName("Employee");
+
+        for(let emp of employees){
+            const NAME = emp.getElementsByTagName("Name")[0].textContent;
+
+            if(NAME == "Sajan"){
+                emp.getElementsByTagName("Position")[0].textContent = "Police Officer";
+                emp.getElementsByTagName("Years")[0].textContent = "12";
+            }
+        }
+       }
+
+    function addEmployee() {
+    if (!xmlDoc) {
+        alert("XML data is not loaded yet.");
+        return;
+    }
+
+    // Create a new Employee element
+    const newEmployee = xmlDoc.createElement("Employee");
+    newEmployee.setAttribute("specialization", document.getElementById("specal").value);
+
+    // Create and append child elements
+    const id = xmlDoc.createElement("Id");
+    id.textContent = document.getElementById("id").value;
+    newEmployee.appendChild(id);
+
+    const name = xmlDoc.createElement("Name");
+    name.textContent = document.getElementById("name").value;
+    newEmployee.appendChild(name);
+
+    const branch = xmlDoc.createElement("Branch");
+    branch.textContent = document.getElementById("bra").value;
+    branch.setAttribute("Department", document.getElementById("dep").value);
+    newEmployee.appendChild(branch);
+
+    const position = xmlDoc.createElement("Position");
+    position.textContent = document.getElementById("pos").value;
+    newEmployee.appendChild(position);
+
+    const years = xmlDoc.createElement("Years");
+    years.textContent = document.getElementById("year").value;
+    newEmployee.appendChild(years);
+
+    console.log(newEmployee);
+
+    // Append new employee to XML
+    xmlDoc.getElementsByTagName("Employees")[0].appendChild(newEmployee);
+
+    // Dynamically update the table
+    displayData(xmlDoc);
+
+    // Clear input fields after insertion
+    document.getElementById("id").value = "";
+    document.getElementById("name").value = "";
+    document.getElementById("bra").value = "";
+    document.getElementById("dep").value = "";
+    document.getElementById("pos").value = "";
+    document.getElementById("special").value = "";
+    document.getElementById("year").value = "";
+}
+
+</script>

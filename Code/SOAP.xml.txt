@@ -1,0 +1,49 @@
+package com.billcalc.seusl;
+
+public class EbillCalc {
+	
+	public double billCalc(int units) {
+		
+		int amount=0;
+		
+		
+		if(units<=60) {
+			amount= units*10;
+		} else if(units<=90) {
+			amount= (60*10)+(units-60)*15;
+		} else if(units<=180) {
+			amount= (60*10)+(30*15)+(units-90)*30;
+		} else if(units<=400) {
+			amount= (60*10)+(30*15)+(90*30)+(units-180)*50;
+		} else if(units > 400) {
+			amount= (60*10)+(30*15)+(90*30)+(220*50)+(units-400)*70;
+
+		}
+		
+		return amount;
+	}
+
+}
+
+
+package bmiCalculator;
+
+public class BMICalculation {
+	
+	public String calculateBMI(float weight, float height) {
+        if (weight <= 0 || height <= 0) {
+            return "Invalid input: Weight and height must be positive numbers.";
+        }
+
+        double bmi = weight / (height * height);
+        if (bmi < 18.5) {
+            return "Underweight";
+        } else if (bmi < 25) {
+            return "Normal weight";
+        } else if (bmi < 30) {
+            return "Overweight";
+        } else {
+            return "Obese";
+        }
+    }
+}

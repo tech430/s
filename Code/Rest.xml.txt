@@ -1,0 +1,105 @@
+package com.example.bmi;
+
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+@RestController
+public class BmiCalculationController {
+//	@GetMapping("/bmi/{weight}/{height}")
+//	public String bmiCal(@PathVariable  float weight,@PathVariable float height) {
+//		
+//		if(weight <= 0 || height <= 0 ) {
+//			return "Invalid input: enter the height,weight positive numbers..!";
+//		}
+//		
+//		double bmi = weight / Math.pow(height, 2);
+//		
+//		if (bmi < 18.5) {
+//            return "Underweight";
+//        } 
+//	 else if (bmi >= 18.5 && bmi < 24.9) {
+//            return "Normal weight";
+//        } 
+//	 else if (bmi >= 25 && bmi < 29.9) {
+//            return "Overweight";
+//        } 
+//	 else {
+//            return "Obese";
+//        }
+//		
+//	}
+	
+	
+	//Calculator Code
+//	@GetMapping("/calculate/{num1}/{num2}/{operation}")
+//    public String calculate(@PathVariable double num1, @PathVariable double num2, @PathVariable String operation) {
+//        double result;
+//
+//        switch (operation) {
+//            case "+":
+//                result = num1 + num2;
+//                break;
+//            case "-":
+//                result = num1 - num2;
+//                break;
+//            case "*":
+//                result = num1 * num2;
+//                break;
+//            case "/":
+//                if (num2 == 0) {
+//                    return "Error: Division by zero is not allowed.";
+//                }
+//                result = num1 / num2;
+//                break;
+//            default:
+//                return "Invalid operation! Use '+', '-', '*', or '/'.";
+//        }
+//
+//        return "Result: " + result;
+//    }
+	
+	
+	
+	//Leap Year
+//	@GetMapping("/leapyear/{year}")
+//    public String checkLeapYear(@PathVariable int year) {
+//        if (year <= 0) {
+//            return "Invalid input! Please enter a valid positive year.";
+//        }
+//
+//        boolean isLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+//
+//        if (isLeap) {
+//            return year + " is a Leap Year.";
+//        } else {
+//            return year + " is NOT a Leap Year.";
+//        }
+//    }
+	
+	
+	//Fibonacci Calculation
+//	@GetMapping("/fibonacci/{n}")
+//    public String fibonacci(@PathVariable int n) {
+//        if (n < 0) {
+//            return "Invalid input! Enter a non-negative number.";
+//        }
+//        return "Fibonacci(" + n + ") = " + fib(n);
+//    }
+//
+//    public int fib(int n) {
+//        if (n <= 1) {
+//            return n;
+//        }
+//        return fib(n - 1) + fib(n - 2);
+//    }
+	
+		@GetMapping("/cal/{P}/{R}/{N}")
+			public String emiCal(@PathVariable double P, @PathVariable double R, @PathVariable double N) {
+			
+				double emi = (P * R * Math.pow((1+R),N)) / (Math.pow(1 + R,N) - 1);
+				
+				return emi + " is a EMI amount";
+			
+		}
+
+}
